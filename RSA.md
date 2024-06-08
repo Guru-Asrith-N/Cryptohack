@@ -72,7 +72,7 @@ print (m)
 
 ### RSA starter 6
 
-for signing , first you hash the message   
+for signing , first you hash the message which is in bytes    
 then convert hash to long integer  
 finally you encrypt the number which you get using your private key . the public key can be used to decrypt   
 signed_message = (m_hash) ^d mod N
