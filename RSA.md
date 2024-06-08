@@ -97,4 +97,13 @@ print (c)
 
 ## Primes Part 1
 
+### Factoring 
+
+place this number `510143758735509025530880200653196460532653147` in http://factordb.com/   
+you will get the factors  
+`flag - 19704762736204164635843`
+
+### Inferius Prime
+
+
 
