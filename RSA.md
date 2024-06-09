@@ -38,7 +38,7 @@ print (a)
 
 ### RSA starter 4
 
-d * e == 1 modulo (p-1)(q-1)
+d * e == 1 modulo (p-1)(q-1)     
 d = e ^-1 mod (p-1)*(q-1)
 ```
 p = 857504083339712752489993810777
