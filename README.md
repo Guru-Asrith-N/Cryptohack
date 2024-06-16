@@ -15,4 +15,4 @@ https://medium.com/@phiphatchomchit/fermat-factorization-algorithm-can-break-poo
 
 https://www.khanacademy.org/computing/computer-science/cryptography/modern-crypt/v/discrete-logarithm-problem      
 https://www.khanacademy.org/computing/computer-science/cryptography/modern-crypt/v/diffie-hellman-key-exchange-part-2      
-http://www.bluetulip.org/2014/programs/primitive.html       
+http://www.bluetulip.org/2014/programs/primitive.html - Primitive roots calculator          
