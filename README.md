@@ -13,6 +13,8 @@ https://medium.com/@phiphatchomchit/fermat-factorization-algorithm-can-break-poo
 
 ## Diffie-Hellman
 
+![Cryptohack_Diffie_hellman](https://github.com/Guru-Asrith-N/Cryptohack/assets/147991595/441da777-188c-458e-b5ce-06ba18d1524b)
+
 https://www.khanacademy.org/computing/computer-science/cryptography/modern-crypt/v/discrete-logarithm-problem      
 https://www.khanacademy.org/computing/computer-science/cryptography/modern-crypt/v/diffie-hellman-key-exchange-part-2      
 http://www.bluetulip.org/2014/programs/primitive.html - Primitive roots calculator          
