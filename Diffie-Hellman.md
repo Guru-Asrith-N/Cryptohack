@@ -17,3 +17,10 @@ print (d)
 
 ### Diffie-Hellman Starter 2  
 
+found this website for calculating primitive roots    
+`http://www.bluetulip.org/2014/programs/primitive.html`  
+`flag - 7`
+
+### Diffie-Hellman starter 3
+
+
