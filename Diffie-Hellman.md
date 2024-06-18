@@ -138,3 +138,56 @@ print(decrypt(0, alice['iv'], alice['encrypted_flag']))
 `flag - crypto{n1c3_0n3_m4ll0ry!!!!!!!!}`
 
 ### Export-grade
+
+we conncet to server using `nc socket.cryptohack.org 13379`   
+we intercept alice message and directly send bob that we are using the DH64 model   
+```
+import json
+
+x = '{"supported": ["DH1536", "DH1024", "DH512", "DH256", "DH128", "DH64"]}'
+y = json.loads(x)
+
+z ={"supported": ["DH64"]}
+w = json.dumps(z)
+print (w)
+```
+using we how that alice wants to use DH64 model  
+we intercept the message from bob and send the same message to alice as it shows that bob has accepted DH64 model   
+```
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import unpad
+import hashlib
+
+def is_pkcs7_padded(message):
+    padding = message[-message[-1]:]
+    return all(padding[i] == len(padding) for i in range(0, len(padding)))
+
+def decrypt_flag(shared_secret: int, iv: str, ciphertext: str):
+    # Derive AES key from shared secret
+    sha1 = hashlib.sha1()
+    sha1.update(str(shared_secret).encode('ascii'))
+    key = sha1.digest()[:16]
+    # Decrypt flag
+    ciphertext = bytes.fromhex(ciphertext)
+    iv = bytes.fromhex(iv)
+    cipher = AES.new(key, AES.MODE_CBC, iv)
+    plaintext = cipher.decrypt(ciphertext)
+
+    if is_pkcs7_padded(plaintext):
+        return unpad(plaintext, 16).decode('ascii')
+    else:
+        return plaintext.decode('ascii')
+p = 0xde26ab651b92a129
+g = 2
+A = 0x7a71ac05710cff09
+B = 0x89cc61c25359649e
+iv = 0x9b6406d46915e213646a66e0f2cde6cb
+encrypted_flag = 0x4e9968b7fc99a860720edb39916d299de5cac8c282fa9b2341a9e287a662c784
+a = 3386506623279806682
+shared_secret = pow(B, a, p)
+
+s, i, e = shared_secret, hex(iv)[2:], hex(encrypted_flag)[2:]
+print(decrypt_flag(s, i, e))
+```
+`flag - crypto{d0wn6r4d35_4r3_d4n63r0u5}`
+
