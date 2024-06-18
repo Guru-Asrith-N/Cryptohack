@@ -191,3 +191,54 @@ print(decrypt_flag(s, i, e))
 ```
 `flag - crypto{d0wn6r4d35_4r3_d4n63r0u5}`
 
+## Group Theory 
+
+### Additive
+
+in multiplicative group you multiply multiple times and hence get `g^a` and `g^b`   
+but in additive group you add repeatedly to get `g*a` and `g*b`  
+hence the shared secret becomes `g*a*b mod N`    
+```
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad, unpad
+import hashlib
+
+
+def is_pkcs7_padded(message):
+    padding = message[-message[-1]:]
+    return all(padding[i] == len(padding) for i in range(0, len(padding)))
+
+
+def decrypt_flag(shared_secret: int, iv: str, ciphertext: str):
+    # Derive AES key from shared secret
+    sha1 = hashlib.sha1()
+    sha1.update(str(shared_secret).encode('ascii'))
+    key = sha1.digest()[:16]
+    # Decrypt flag
+    ciphertext = bytes.fromhex(ciphertext)
+    iv = bytes.fromhex(iv)
+    cipher = AES.new(key, AES.MODE_CBC, iv)
+    plaintext = cipher.decrypt(ciphertext)
+
+    if is_pkcs7_padded(plaintext):
+        return unpad(plaintext, 16).decode('ascii')
+    else:
+        return plaintext.decode('ascii')
+
+p = int('0xffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b0a6df25f14374fe1356d6d51c245e485b576625e7ec6f44c42e9a637ed6b0bff5cb6f406b7edee386bfb5a899fa5ae9f24117c4b1fe649286651ece45b3dc2007cb8a163bf0598da48361c55d39a69163fa8fd24cf5f83655d23dca3ad961c62f356208552bb9ed529077096966d670c354e4abc9804f1746c08ca237327ffffffffffffffff',16)
+g = int('0x02',16)
+A = int('0x3b6e8607bd606ce59f8c9b36068d92bf73ac5f082843b0efb7e2c843ffca9d029ad196e4a33a6b9cb5349bd9feee695faef4775dea4bf515afd45ed0cb4f0e17cad6bf746ce3c1b857a18170708f9b3de01c463dc0b1a2225092391c7b7cd177d6912c79903ae5bda42db4d0bebb9adb961a94532c81511533c4a88fe516e77765a32f721830e207307baaec8854b1b7707fdde5d8f32e97939cb79b00a511f556dfb860000ec885eca4b693bb2cd6274ce99d628e567176209a56b732d65feb',16)
+B = int('0x7de30218d5332a0c60e0c3e1ec88f6142b36ce4c7c5a6fa408584e085b3bb875b6b978338d413ada42d0e42a87b083d5dd0766534a84a2d6194e51387f034511834a936de250588d5d14f33443a8ebe53be7a28f4bb734465f8f8105584fc0111c53d844890bfc3c8726a34c11517e39f1a49264b7a3bc8f2a002bbdfbbfb554503dae57db207ce0f0280d20ea5bed4546feb03f6293a5dacc728e9f99d9868792ad0e10937524b4c1c0142b70d79547bd310faae25792dc220373e2dd7484d7',16)
+iv = '4d44d025d003a1c3a1f8a4631607fc15'
+
+
+a = A * pow(g,-1,p)
+b = B * pow(g,-1,p)
+
+shared_secret = (g*a*b)%p
+
+ciphertext = '76291ed8140b0a61b3f633792f83ef610bd2e84c7c6877d34c41ad070e0aeb128db9977b0e088eeb9d9a2bb235834c6f'
+
+print(decrypt_flag(shared_secret, iv, ciphertext))
+```
+`flag - crypto{cycl1c_6r0up_und3r_4dd1710n?}`
