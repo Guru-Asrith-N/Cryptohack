@@ -96,3 +96,45 @@ print(decrypt_flag(shared_secret, iv, ciphertext))
 
 ## Man In The Middle
 
+### Parameter injection 
+
+since we are the man in the middle , we intercept the messages and change what is written and send to the other person    
+we use `nc socket.cryptohack.org 13371` to connect to server   
+the data is in `json` format so we use the command `json.loads()` and `json.dumps()` to recieve and send messages   
+```
+import json
+
+x = '{"p": "0xffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67cc740>
+alice = json.loads(x)
+bob = alice
+bob['p'] = '1'
+
+w = json.dumps(bob)
+print (w)
+```
+we send the above information to bob   
+we send the same information we intercepted from bob to alice without any change  
+
+```
+import json
+from Crypto.Cipher import AES
+from Crypto.Util import number
+import hashlib
+
+x = '{"iv": "22df5f2a1479568851fcc1d4d88bce04", "encrypted_flag": "791c890f400f766192b336d25b5264061bab2246a477cc689417e3138b9e117b"}'
+alice = json.loads(x)
+def decrypt(secret, iv, cipher):
+    sha1 = hashlib.sha1()
+    sha1.update(str(secret).encode())
+    iv = bytes.fromhex(iv)
+    cipher = bytes.fromhex(cipher)
+    key = sha1.digest()[:16]
+    aes = AES.new(key, AES.MODE_CBC, iv)
+    plain = aes.decrypt(cipher)
+    print(plain)
+
+print(decrypt(0, alice['iv'], alice['encrypted_flag']))
+```
+`flag - crypto{n1c3_0n3_m4ll0ry!!!!!!!!}`
+
+### Export-grade
