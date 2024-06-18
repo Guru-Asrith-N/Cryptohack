@@ -13,7 +13,7 @@ https://medium.com/@phiphatchomchit/fermat-factorization-algorithm-can-break-poo
 
 ## Diffie-Hellman
 
-![Cryptohack_Diffie_hellman](https://github.com/Guru-Asrith-N/Cryptohack/assets/147991595/010fa750-1d66-48cc-8859-e69c6c0d6f7f)
+![Cryptohack_Diffie_hellman](https://github.com/Guru-Asrith-N/Cryptohack/assets/147991595/88e93efb-0067-40f8-ae5a-58afd39509ad)
 
 https://www.khanacademy.org/computing/computer-science/cryptography/modern-crypt/v/discrete-logarithm-problem      
 https://www.khanacademy.org/computing/computer-science/cryptography/modern-crypt/v/diffie-hellman-key-exchange-part-2      
