@@ -316,7 +316,7 @@ print(decrypt_flag(shared_secret, iv, ciphertext))
 
 ### script kiddie
 
-after going through script you can notice that instead of using exponent operator(**) , they use XOR operator(^)    
+after going through script you can notice that instead of using exponent operator(**) , they use XOR operator(^)      
 so the shared secret becomes `g^A^B`    
 ```
 from Crypto.Cipher import AES
