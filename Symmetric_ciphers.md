@@ -181,3 +181,14 @@ for i in range(4):
 
 ### Bringing it all together 
 
+## Symmetric starter 
+
+### Modes of operation starter 
+
+use the link to go to the webpage   
+click on `encrypyt flag` button to get the ciphertext   
+paste the hex in decrypt flag and click the `decrypt flag` button   
+place the plain text in hex decoder    
+`flag - crypto{bl0ck_c1ph3r5_4r3_f457_!}`
+
+###
