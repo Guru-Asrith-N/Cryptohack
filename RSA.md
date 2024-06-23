@@ -364,6 +364,37 @@ print (m)
 ```
 `flag - crypto{Th3se_Pr1m3s_4r3_t00_r4r3}`
 
+### Fast primes 
+
+dowloaded all files    
+went through source code     
+found ROCA attack format in the source code `p = k * M + pow(e, a, M)`     
+opened the key file   
+found n and e in the file using `n = key.n ` and `e = key.e`     
+```
+from Crypto.Cipher import PKCS1_OAEP
+from Crypto.PublicKey import RSA
+from Crypto.Util.number import bytes_to_long, inverse
+
+with open("key.pem", "rb") as f:
+    key = RSA.import_key(f.read())
+
+n = key.n
+e = key.e
+
+p = 51894141255108267693828471848483688186015845988173648228318286999011443419469
+q = 77342270837753916396402614215980760127245056504361515489809293852222206596161
+
+phi = (p-1)*(q-1)
+d = pow(e,-1,phi)
+cp = "249d72cd1d287b1a15a3881f2bff5788bc4bf62c789f2df44d88aae805b54c9a94b8944c0ba798f70062b66160fee312b98879f1dd5d17b33095feb3c5830d28"
+key = RSA.construct((n, e, d))
+cipher = PKCS1_OAEP.new(key)
+flag = cipher.decrypt(bytes.fromhex(cp))
+print(flag)
+```
+`flag - crypto{p00R_3570n14}`
+
 ### RSA Backdoor viability  
 
 put n in `factordb`   
