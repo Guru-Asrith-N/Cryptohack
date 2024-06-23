@@ -191,6 +191,75 @@ print(decrypt_flag(s, i, e))
 ```
 `flag - crypto{d0wn6r4d35_4r3_d4n63r0u5}`
 
+### Static Client
+
+shared_key = A^b mod p  
+to bob we send    
+fake_B = fake_g ^b mod fake_p where fake_g = A and we get fake_b = key    
+
+we send the output of this to bob   
+```
+import json
+
+alice =  '{"p": "0xffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67>
+bob = '{"B": "0x8d79b69390f639501d81bdce911ec9defb0e93d421c02958c8c8dd4e245e61a>
+Alice = '{"iv": "635902c01c79c6e0c422bdeec4446bc1", "encrypted": "24376ef65e69f>
+x = json.loads(Alice)
+
+iv = '635902c01c79c6e0c422bdeec4446bc1'
+ciphertext = '24376ef65e69f75efff64f59e082932fa14d137f1274afd0801d3b050ff43515'
+
+y = json.loads(alice)
+tmp = y['A']
+y['A'] = y['g']
+y['g'] = tmp
+z = json.dumps(y)
+
+print(z)
+```
+```
+import json
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad, unpad
+import hashlib
+
+def is_pkcs7_padded(message):
+    padding = message[-message[-1]:]
+    return all(padding[i] == len(padding) for i in range(0, len(padding)))
+
+def decrypt_flag(shared_secret: int, iv: str, ciphertext: str):
+    # Derive AES key from shared secret
+    sha1 = hashlib.sha1()
+    sha1.update(str(shared_secret).encode('ascii'))
+    key = sha1.digest()[:16]
+    # Decrypt flag
+    ciphertext = bytes.fromhex(ciphertext)
+    iv = bytes.fromhex(iv)
+    cipher = AES.new(key, AES.MODE_CBC, iv)
+    plaintext = cipher.decrypt(ciphertext)
+
+    if is_pkcs7_padded(plaintext):
+        return unpad(plaintext, 16).decode('ascii')
+    else:
+        return plaintext.decode('ascii')
+
+alice = '{"p": "0xffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b0a6df>
+y = json.loads(alice)
+bob = '{"B": "0x2467c146bc7d669ea8b5cfbca20dd453c3c5d9f38f2ce7269b89c1bcf0f59b243643211111a863c539494a44b687c8e7966ec99b16b530588ec8955396a>
+z = json.loads(bob)
+
+iv = '635902c01c79c6e0c422bdeec4446bc1'
+ciphertext = '24376ef65e69f75efff64f59e082932fa14d137f1274afd0801d3b050ff43515'
+
+tmp = y['g']
+y['g'] = y['A']
+y['A'] = tmp
+
+shared_secret = int(z['B'], 16)
+print(decrypt_flag(shared_secret, iv, ciphertext))
+```
+`flag - crypto{n07_3ph3m3r4l_3n0u6h}`
+
 ## Group Theory 
 
 ### Additive
