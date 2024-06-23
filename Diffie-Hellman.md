@@ -311,3 +311,50 @@ ciphertext = '76291ed8140b0a61b3f633792f83ef610bd2e84c7c6877d34c41ad070e0aeb128d
 print(decrypt_flag(shared_secret, iv, ciphertext))
 ```
 `flag - crypto{cycl1c_6r0up_und3r_4dd1710n?}`
+
+## Misc
+
+### script kiddie
+
+after going through script you can notice that instead of using exponent operator(**) , they use XOR operator(^)    
+so the shared secret becomes `g^A^B`    
+```
+from Crypto.Cipher import AES
+import hashlib
+
+def is_pkcs7_padded(message):
+    padding = message[-message[-1]:]
+    return all(padding[i] == len(padding) for i in range(0, len(padding)))
+
+def pkcs7_unpad(message, block_size=16):
+    if len(message) == 0:
+        raise Exception("The input data must contain at least one byte")
+    if not is_pkcs7_padded(message):
+        return message
+    padding_len = message[-1]
+    return message[:-padding_len]
+
+def decrypt_flag(shared_secret: int, iv: str, ciphertext: str):
+    # Derive AES key from shared secret
+    sha1 = hashlib.sha1()
+    sha1.update(str(shared_secret).encode('ascii'))
+    key = sha1.digest()[:16]
+    # Decrypt flag
+    ciphertext = bytes.fromhex(ciphertext)
+    iv = bytes.fromhex(iv)
+    cipher = AES.new(key, AES.MODE_CBC, iv)
+    plaintext = cipher.decrypt(ciphertext)
+    return pkcs7_unpad(plaintext).decode('ascii')
+
+p = 241031242692103258855207602219756607485695054850245994265411694195810883168261222889009385826134161467322714147790401219650364895705058>
+g = 2
+A = 539556019868756019035615487062583764545019803793635712947528463889304486869497162061335997527971977050049337464152478479265992127749780>
+B = 652888676809466256406904653886313023288609075262748718135045355786028783611182379919130347165201199876762400523413029908630805888567578>
+iv = 'c044059ae57b61821a9090fbdefc63c5'
+encrypted_flag = 'f60522a95bde87a9ff00dc2c3d99177019f625f3364188c1058183004506bf96541cf241dad1c0e92535564e537322d7'
+
+shared_secret = g^A^B
+
+print (decrypt_flag(shared_secret,iv,encrypted_flag))
+```
+`flag -crypto{b3_c4r3ful_w1th_y0ur_n0tati0n}`
