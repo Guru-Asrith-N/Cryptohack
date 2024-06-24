@@ -2,7 +2,8 @@
 
 ## RSA
 
-![Cryptohack_RSA](https://github.com/Guru-Asrith-N/Cryptohack/assets/147991595/d97122cc-b508-44ef-9137-a153f5c5fae6)
+![Cryptohack_RSA](https://github.com/Guru-Asrith-N/Cryptohack/assets/147991595/bc98a419-e5f1-4e60-9660-dff2b0fe67af)
+
 
 used resources   
 https://docs.python.org/3/library/hashlib.html        
