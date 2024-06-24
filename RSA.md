@@ -321,7 +321,8 @@ for d in D:
 
 ### Endless emails
 
-we use hastad's broadcast attack and chinese remainder theorem  
+we use hastad's broadcast attack and chinese remainder theorem       
+https://github.com/ashutosh1206/Crypton/blob/master/RSA-encryption/Attack-Hastad-Broadcast/README.md      
 ```
 from Crypto.Util.number import inverse, long_to_bytes
 from sympy import root
